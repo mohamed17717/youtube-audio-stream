@@ -2,7 +2,7 @@
 
 Got annoying from Youtube application which can't run audio in background so i created this solution.
 
-check the [https://yt-audio.netlify.app/](live demo)
+check the [live demo](https://yt-audio.netlify.app/)
 
 ## Built with
 
