@@ -98,4 +98,5 @@ form.addEventListener("submit", (e) => {
   new YoutubeAudio(data, () => (submitButton.disabled = false));
   submitButton.disabled = true;
   document.querySelector(".root .error").textContent = "";
+  document.querySelector(".root .audio").innerHTML = "";
 });
