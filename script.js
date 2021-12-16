@@ -1,6 +1,9 @@
 class YoutubeAudio_StorageManager {
   getVideoId(video_url) {
-    return new URL(video_url).searchParams.get("v");
+    const id =
+      new URL(video_url).searchParams.get("v") || video_url.split("/").pop();
+
+    return id;
   }
 
   saveLocally({ video_url, audio_url }) {
@@ -27,6 +30,8 @@ class YoutubeAudio extends YoutubeAudio_StorageManager {
   backend = "https://ninja-bag.site/yt/audio/";
 
   constructor({ video_url }) {
+    super();
+
     this.video_url = video_url;
 
     const audio_url = this.checkLocally(video_url);
