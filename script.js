@@ -93,10 +93,10 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const data = Object.fromEntries(new FormData(e.target).entries());
-  console.log(data);
 
-  new YoutubeAudio(data, () => (submitButton.disabled = false));
   submitButton.disabled = true;
   document.querySelector(".root .error").textContent = "";
   document.querySelector(".root .audio").innerHTML = "";
+
+  new YoutubeAudio(data, () => (submitButton.disabled = false));
 });
