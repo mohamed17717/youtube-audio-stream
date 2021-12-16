@@ -32,11 +32,16 @@ class YoutubeAudio extends YoutubeAudio_StorageManager {
   constructor({ video_url }, callback) {
     super();
 
-    this.video_url = video_url;
+    this.video_url = video_url.split("&")[0];
     this.callback = callback;
 
     const audio_url = this.checkLocally(video_url);
-    audio_url ? this.render(audio_url) : this.get();
+    if (audio_url) {
+      this.render(audio_url);
+      callback();
+    } else {
+      this.get();
+    }
   }
 
   generateRequestBody() {
@@ -66,12 +71,12 @@ class YoutubeAudio extends YoutubeAudio_StorageManager {
     const status = response.status;
     if (status === 200) {
       const { audio_url } = await response.json();
+      this.callback();
       this.render(audio_url);
       this.saveLocally({ video_url: this.video_url, audio_url });
-      this.callback();
     } else {
-      this.raiseError();
       this.callback();
+      this.raiseError();
     }
   }
 
