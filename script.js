@@ -29,10 +29,11 @@ class YoutubeAudio_StorageManager {
 class YoutubeAudio extends YoutubeAudio_StorageManager {
   backend = "https://ninja-bag.site/yt/audio/";
 
-  constructor({ video_url }) {
+  constructor({ video_url }, callback) {
     super();
 
     this.video_url = video_url;
+    this.callback = callback;
 
     const audio_url = this.checkLocally(video_url);
     audio_url ? this.render(audio_url) : this.get();
@@ -50,6 +51,11 @@ class YoutubeAudio extends YoutubeAudio_StorageManager {
     };
   }
 
+  raiseError() {
+    document.querySelector(".root .error").textContent =
+      "There is unexpected error happened";
+  }
+
   async get() {
     const response = await fetch(this.backend, {
       method: "POST",
@@ -57,11 +63,16 @@ class YoutubeAudio extends YoutubeAudio_StorageManager {
       body: JSON.stringify(this.generateRequestBody()),
     });
 
-    // assert response status == 200
-
-    const { audio_url } = await response.json();
-    this.render(audio_url);
-    this.saveLocally({ video_url: this.video_url, audio_url });
+    const status = response.status;
+    if (status === 200) {
+      const { audio_url } = await response.json();
+      this.render(audio_url);
+      this.saveLocally({ video_url: this.video_url, audio_url });
+      this.callback();
+    } else {
+      this.raiseError();
+      this.callback();
+    }
   }
 
   render(audio_url) {
@@ -76,11 +87,14 @@ class YoutubeAudio extends YoutubeAudio_StorageManager {
 }
 
 const form = document.querySelector("form");
+const submitButton = form.querySelector('input[type="submit"]');
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const data = Object.fromEntries(new FormData(e.target).entries());
   console.log(data);
 
-  new YoutubeAudio(data);
+  new YoutubeAudio(data, () => (submitButton.disabled = false));
+  submitButton.disabled = true;
 });
