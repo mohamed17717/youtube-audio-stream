@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Youtube Stream Audio</title>
+
+    <script src="./script.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="root">
+      <h1>Youtube Stream Audio</h1>
+      <h3>
+        Got annoying from Youtube application which can't run audio in
+        background so i created this solution.
+        <br />
+        Hope you enjoy.
+      </h3>
+      <h3>
+        قابلتني مشكلة اني مش نافع اشغل فيديوهات اليوتيوب في الخلفية و مضطر ابقي
+        فاتح الفيديو طول الوقت .. ف عملت الحل ده
+        <br />
+        اتمني انك تستمتع بيه انت كمان
+      </h3>
+      <form>
+        <input
+          type="url"
+          name="video_url"
+          placeholder="Enter youtube url here"
+          autocomplete="off"
+          required
+        />
+        <input type="submit" value="&#10145;" />
+      </form>
+      <div class="audio">
+        <!-- <audio controls>
+          <source src="${audio_url}" type="audio/mpeg" />
+          Your browser does not support the audio tag.
+        </audio> -->
+      </div>
+
+      <footer>
+        © 2021 — Developed with ❤️ by
+        <b>
+          <a href="https://www.linkedin.com/in/mohamed17717" target="_blank">
+            Mohamed Mahmoud
+          </a>
+        </b>
+      </footer>
+    </div>
+  </body>
+</html>
