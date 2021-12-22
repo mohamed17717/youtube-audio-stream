@@ -114,6 +114,10 @@ body {
   background-color: #eee;
 }
 
+.root main form button:disabled {
+  opacity: 0.5;
+}
+
 footer {
   background-color: #2f2f2f;
   inset: auto 0 0 0;

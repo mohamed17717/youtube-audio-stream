@@ -119,6 +119,10 @@ body {
         &:active {
           background-color: #eee;
         }
+
+        &:disabled {
+          opacity: 0.5;
+        }
       }
     }
   }
