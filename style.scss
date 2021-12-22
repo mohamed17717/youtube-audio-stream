@@ -1,0 +1,139 @@
+@import url("https://fonts.googleapis.com/css?family=Righteous");
+
+$accentColor: #ef5b25;
+$accentColor: rgb(22, 130, 230);
+$accentColor: #2f2f2f;
+$heroImage: url("./hero.jpg");
+$heroColor: rgb(22, 130, 230);
+$textColor: #fff;
+
+* {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: $textColor;
+  font-family: "Righteous", cursive;
+  font-size: 16px;
+}
+
+.root {
+  min-height: 100vh;
+  background: $heroImage center center / cover no-repeat $heroColor;
+  padding: 40px 60px 0;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: #000000;
+    z-index: 0;
+    opacity: 0.2;
+  }
+
+  header,
+  main {
+    margin-bottom: 8rem;
+    position: relative;
+  }
+
+  header {
+    .logo {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+    }
+  }
+
+  main {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+
+    h1 {
+      font-size: 2.2rem;
+      line-height: 1.5;
+      margin-bottom: 2rem;
+      span {
+        background-color: $accentColor;
+        padding: 3px 12px;
+        border-radius: 5px;
+      }
+    }
+
+    form {
+      margin-bottom: 2rem;
+      input {
+        width: 80%;
+        margin: auto;
+        display: block;
+        text-align: center;
+        font-family: "Righteous", cursive;
+
+        font-size: 1rem;
+        min-height: 40px;
+        border-radius: 5px;
+        line-height: 20px;
+        padding: 15px 30px 16px;
+        border: 1px solid #b9b9b9;
+        margin-bottom: 10px;
+        background-color: rgb(219, 219, 219);
+        color: #000000;
+        opacity: 1;
+        transition: background-color 0.5s;
+
+        &:focus {
+          outline: none;
+          background-color: #fff;
+        }
+      }
+      .error {
+        // margin-bottom: 20px;
+        color: rgb(255, 19, 19);
+        margin-bottom: 15px;
+        // font-size: 1.1rem;
+        // letter-spacing: 1px;
+        display: none;
+      }
+
+      button {
+        background-color: $accentColor;
+        color: $textColor;
+        // padding: 12px 24px;
+        width: 160px;
+        height: 50px;
+        font-family: "Righteous", cursive;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $textColor;
+          color: $accentColor;
+        }
+
+        &:active {
+          background-color: #eee;
+        }
+      }
+    }
+  }
+}
+
+footer {
+  background-color: $accentColor;
+  // position: absolute;
+  inset: auto 0 0 0;
+  text-align: center;
+
+  padding: 20px;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

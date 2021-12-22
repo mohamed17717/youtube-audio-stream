@@ -1,3 +1,14 @@
+class YoutubeAudio_SelectorHandler {
+  // contain selectors
+  prefix = ".root";
+
+  audioContainer = `${this.prefix} .audio`;
+  errorContainer = `${this.prefix} .error`;
+
+  form = `${this.prefix} form`;
+  submitFormButton = `${this.form} button`;
+}
+
 class YoutubeAudio_StorageManager {
   getVideoId(video_url) {
     const id =
@@ -57,8 +68,9 @@ class YoutubeAudio extends YoutubeAudio_StorageManager {
   }
 
   raiseError() {
+    document.querySelector(".root .error").style.display = "block";
     document.querySelector(".root .error").textContent =
-      "There is unexpected error happened";
+      "There is unexpected error happened, maybe youtube has blocked my backend.";
   }
 
   async get() {
@@ -91,8 +103,9 @@ class YoutubeAudio extends YoutubeAudio_StorageManager {
   }
 }
 
-const form = document.querySelector("form");
-const submitButton = form.querySelector('input[type="submit"]');
+const selectors = new YoutubeAudio_SelectorHandler();
+const form = document.querySelector(selectors.form);
+const submitButton = form.querySelector(selectors.submitFormButton);
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
