@@ -3,7 +3,7 @@
 $accentColor: #ef5b25;
 $accentColor: rgb(22, 130, 230);
 $accentColor: #2f2f2f;
-$heroImage: url("./hero.jpg");
+$heroImage: url("/static/img/hero.jpg");
 $heroColor: rgb(22, 130, 230);
 $textColor: #fff;
 
@@ -92,18 +92,14 @@ body {
         }
       }
       .error {
-        // margin-bottom: 20px;
         color: rgb(255, 19, 19);
         margin-bottom: 15px;
-        // font-size: 1.1rem;
-        // letter-spacing: 1px;
         display: none;
       }
 
       button {
         background-color: $accentColor;
         color: $textColor;
-        // padding: 12px 24px;
         width: 160px;
         height: 50px;
         font-family: "Righteous", cursive;
@@ -130,7 +126,6 @@ body {
 
 footer {
   background-color: $accentColor;
-  // position: absolute;
   inset: auto 0 0 0;
   text-align: center;
 

@@ -121,6 +121,5 @@ form.addEventListener("submit", (e) => {
 
 // Register Service worker for Add to Home Screen option to work
 if ("serviceWorker" in navigator) {
-  console.log("service worker successfully imported");
-  navigator.serviceWorker.register("/service-worker.js");
+  navigator.serviceWorker.register("/static/js/service-worker.js");
 }
