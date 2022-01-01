@@ -118,3 +118,9 @@ form.addEventListener("submit", (e) => {
 
   new YoutubeAudio(data, () => (submitButton.disabled = false));
 });
+
+// Register Service worker for Add to Home Screen option to work
+if ("serviceWorker" in navigator) {
+  console.log("service worker successfully imported");
+  navigator.serviceWorker.register("/service-worker.js");
+}
