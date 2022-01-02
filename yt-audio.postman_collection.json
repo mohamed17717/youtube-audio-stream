@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "f5e55d96-20dd-414c-9e4e-80bd827a8083",
+		"name": "yt-audio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "success test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.audio_url).to.contain(\"https://\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"video_url\": \"https://www.youtube.com/watch?v=JGwWNGJdvx8&ab_channel=EdSheeran\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ninja-bag.site/yt/audio/",
+					"protocol": "https",
+					"host": [
+						"ninja-bag",
+						"site"
+					],
+					"path": [
+						"yt",
+						"audio",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fail test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400 Bad Request\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"video_url\": \"https://facebook.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ninja-bag.site/yt/audio/",
+					"protocol": "https",
+					"host": [
+						"ninja-bag",
+						"site"
+					],
+					"path": [
+						"yt",
+						"audio",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
