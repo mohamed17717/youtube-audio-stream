@@ -24,9 +24,10 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background-color: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(30%, black), to(transparent));
+  background: linear-gradient(to top, black 30%, transparent);
   z-index: 0;
-  opacity: 0.2;
+  opacity: 0.7;
 }
 
 .root header,
@@ -54,7 +55,8 @@ body {
 }
 
 .root main h1 span {
-  background-color: #2f2f2f;
+  background-color: #f5e50b;
+  color: #111111;
   padding: 3px 12px;
   border-radius: 5px;
 }
@@ -95,8 +97,8 @@ body {
 }
 
 .root main form button {
-  background-color: #2f2f2f;
-  color: #fff;
+  background-color: #f5e50b;
+  color: #111111;
   width: 160px;
   height: 50px;
   font-family: "Righteous", cursive;
@@ -106,12 +108,12 @@ body {
 }
 
 .root main form button:hover {
-  background-color: #fff;
-  color: #2f2f2f;
+  background-color: #111111;
+  color: #f5e50b;
 }
 
 .root main form button:active {
-  background-color: #eee;
+  background-color: #464646;
 }
 
 .root main form button:disabled {
@@ -119,7 +121,8 @@ body {
 }
 
 footer {
-  background-color: #2f2f2f;
+  background-color: #f5e50b;
+  color: #111111;
   inset: auto 0 0 0;
   text-align: center;
   padding: 20px;

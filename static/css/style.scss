@@ -2,7 +2,8 @@
 
 $accentColor: #ef5b25;
 $accentColor: rgb(22, 130, 230);
-$accentColor: #2f2f2f;
+$accentColor: #f5e50b;
+$accentTextColor: rgb(17, 17, 17);
 $heroImage: url("/static/img/hero.jpg");
 $heroColor: rgb(22, 130, 230);
 $textColor: #fff;
@@ -30,9 +31,9 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background-color: #000000;
+    background: linear-gradient(to top, black 30%, transparent);
     z-index: 0;
-    opacity: 0.2;
+    opacity: 0.7;
   }
 
   header,
@@ -60,6 +61,7 @@ body {
       margin-bottom: 2rem;
       span {
         background-color: $accentColor;
+        color: $accentTextColor;
         padding: 3px 12px;
         border-radius: 5px;
       }
@@ -99,7 +101,7 @@ body {
 
       button {
         background-color: $accentColor;
-        color: $textColor;
+        color: $accentTextColor;
         width: 160px;
         height: 50px;
         font-family: "Righteous", cursive;
@@ -108,12 +110,12 @@ body {
         cursor: pointer;
 
         &:hover {
-          background-color: $textColor;
+          background-color: $accentTextColor;
           color: $accentColor;
         }
 
         &:active {
-          background-color: #eee;
+          background-color: rgb(70, 70, 70);
         }
 
         &:disabled {
@@ -126,6 +128,7 @@ body {
 
 footer {
   background-color: $accentColor;
+  color: $accentTextColor;
   inset: auto 0 0 0;
   text-align: center;
 
