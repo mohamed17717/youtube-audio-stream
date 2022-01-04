@@ -1,4 +1,4 @@
-class YoutubeAudio_SelectorHandler {
+class SelectorHandler {
   // contain selectors
   prefix = ".root";
 
@@ -7,9 +7,11 @@ class YoutubeAudio_SelectorHandler {
 
   form = `${this.prefix} form`;
   submitFormButton = `${this.form} button`;
+
+  backgroundHeroImage = `${this.prefix}`;
 }
 
-class YoutubeAudio_StorageManager {
+class StorageHandler {
   getVideoId(video_url) {
     const id =
       new URL(video_url).searchParams.get("v") || video_url.split("/").pop();
@@ -17,13 +19,11 @@ class YoutubeAudio_StorageManager {
     return id;
   }
 
-  saveLocally({ video_url, audio_url }) {
+  saveLocally(video_info) {
+    const { audio_url, videoId } = video_info;
     const expire = parseInt(new URL(audio_url).searchParams.get("expire"));
-    const videoId = this.getVideoId(video_url);
 
-    const obj = { audio_url, expire };
-
-    sessionStorage.setItem(videoId, JSON.stringify(obj));
+    sessionStorage.setItem(videoId, JSON.stringify({ ...video_info, expire }));
   }
 
   checkLocally(video_url) {
@@ -31,93 +31,121 @@ class YoutubeAudio_StorageManager {
     const stringObj = sessionStorage.getItem(videoId);
 
     if (stringObj) {
-      const { audio_url, expire } = JSON.parse(stringObj);
-      if (expire > new Date().getTime() / 1000) return audio_url;
+      const video_info = JSON.parse(stringObj);
+
+      if (video_info.expire > new Date().getTime() / 1000) return video_info;
     }
   }
 }
 
-class YoutubeAudio extends YoutubeAudio_StorageManager {
-  backend = "https://ninja-bag.site/yt/audio/";
+class RenderHandler {
+  outputAudioContainer = document.querySelector(selectors.audioContainer);
+  heroImageElm = document.querySelector(selectors.backgroundHeroImage);
 
-  constructor({ video_url }, callback) {
-    super();
-
-    this.video_url = video_url.split("&")[0];
-    this.callback = callback;
-
-    const audio_url = this.checkLocally(video_url);
-    if (audio_url) {
-      this.render(audio_url);
-      callback();
-    } else {
-      this.get();
-    }
-  }
-
-  generateRequestBody() {
-    const video_url = this.video_url;
-    return { video_url };
-  }
-
-  generateRequestHeader() {
-    return {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    };
-  }
-
-  raiseError() {
-    document.querySelector(".root .error").style.display = "block";
-    document.querySelector(".root .error").textContent =
-      "There is unexpected error happened, maybe youtube has blocked my backend.";
-  }
-
-  async get() {
-    const response = await fetch(this.backend, {
-      method: "POST",
-      headers: this.generateRequestHeader(),
-      body: JSON.stringify(this.generateRequestBody()),
-    });
-
-    const status = response.status;
-    if (status === 200) {
-      const { audio_url } = await response.json();
-      this.callback();
-      this.render(audio_url);
-      this.saveLocally({ video_url: this.video_url, audio_url });
-    } else {
-      this.callback();
-      this.raiseError();
-    }
-  }
-
-  render(audio_url) {
-    console.log(audio_url);
-
-    const elm = document.querySelector(".root .audio");
-    elm.innerHTML = `<audio controls autoplay>
+  renderAudio(audio_url) {
+    this.outputAudioContainer.innerHTML = `<audio controls autoplay>
       <source src="${audio_url}" type="audio/mpeg">
       Your browser does not support the audio tag.
     </audio>`;
   }
+
+  renderHeroImage(thumbnail_url) {
+    this.heroImageElm.style.backgroundImage = `url("${thumbnail_url}")`;
+  }
 }
 
-const selectors = new YoutubeAudio_SelectorHandler();
-const form = document.querySelector(selectors.form);
-const submitButton = form.querySelector(selectors.submitFormButton);
+class RequestHandler {
+  backend = "https://ninja-bag.site/yt/audio/";
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
+  async get(video_url) {
+    video_url = video_url.split("&")[0];
 
-  const data = Object.fromEntries(new FormData(e.target).entries());
+    const response = await fetch(this.backend, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ video_url }),
+    });
 
-  submitButton.disabled = true;
-  document.querySelector(".root .error").textContent = "";
-  document.querySelector(".root .audio").innerHTML = "";
+    return response;
+  }
+}
 
-  new YoutubeAudio(data, () => (submitButton.disabled = false));
-});
+class FormHandler {
+  // elements
+  form = document.querySelector(selectors.form);
+  submitButton = document.querySelector(selectors.submitFormButton);
+  errorMsgContainer = document.querySelector(selectors.errorContainer);
+  outputAudioContainer = document.querySelector(selectors.audioContainer);
+
+  storage = new StorageHandler();
+
+  onSubmitHandle = (e) => {
+    e.preventDefault();
+
+    const { video_url } = Object.fromEntries(new FormData(e.target).entries());
+    this.lock();
+    this.reset();
+
+    const video_info = this.storage.checkLocally(video_url);
+    if (video_info) {
+      this.success(video_info);
+    } else {
+      const request = new RequestHandler();
+
+      request
+        .get(video_url)
+        .then((res) => res.json())
+        .then((data) => this.success(data))
+        .catch(() => this.fail());
+    }
+  };
+
+  reset() {
+    this.errorMsgContainer.textContent = "";
+    this.outputAudioContainer.innerHTML = "";
+  }
+
+  lock() {
+    this.submitButton.disabled = true;
+  }
+
+  unlock() {
+    this.submitButton.disabled = false;
+  }
+
+  success(data) {
+    this.unlock();
+
+    const thumbnail_url = data.thumbnails.reduce((a, b) =>
+      a.width > b.width ? a : b
+    ).url;
+
+    const render = new RenderHandler();
+    render.renderAudio(data.audio_url);
+    render.renderHeroImage(thumbnail_url);
+
+    this.storage.saveLocally(data);
+  }
+
+  fail() {
+    this.unlock();
+
+    this.errorMsgContainer.style.display = "block";
+    this.errorMsgContainer.textContent =
+      "There is unexpected error happened, maybe youtube has blocked my backend.";
+  }
+
+  listen() {
+    this.form.addEventListener("submit", this.onSubmitHandle);
+  }
+}
+
+const selectors = new SelectorHandler();
+
+new FormHandler().listen();
 
 // Register Service worker for Add to Home Screen option to work
 if ("serviceWorker" in navigator) {
