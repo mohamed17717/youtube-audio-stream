@@ -55,7 +55,7 @@ class RenderHandler {
 }
 
 class RequestHandler {
-  backend = "https://ninja-bag.site/yt/audio/";
+  backend = "https://ninja-bag.devmhmd.com/t/yt/audio/";
 
   async get(video_url) {
     video_url = video_url.split("&")[0];

@@ -24,8 +24,12 @@ body {
 .root {
   min-height: 100vh;
   background: $heroImage center center / cover no-repeat $heroColor;
-  padding: 40px 60px 0;
+  padding: 40px 60px 100px;
   position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &::before {
     content: "";
@@ -54,6 +58,8 @@ body {
     text-align: center;
     max-width: 800px;
     margin: 0 auto 2rem;
+    flex-grow: 0.8;
+    width: clamp(60px, 75%, 70vw) ;
 
     h1 {
       font-size: 2.2rem;
@@ -124,18 +130,22 @@ body {
       }
     }
   }
-}
 
-footer {
-  background-color: $accentColor;
-  color: $accentTextColor;
-  inset: auto 0 0 0;
-  text-align: center;
+  footer {
+    background-color: $accentColor;
+    color: $accentTextColor;
+    inset: auto 0 0 0;
+    text-align: center;
+  
+    padding: 20px;
 
-  padding: 20px;
-
-  a {
-    color: inherit;
-    text-decoration: none;
+    position: absolute;
+    z-index: 33;
+  
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
   }
 }
+
